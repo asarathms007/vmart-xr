@@ -1,0 +1,28 @@
+import { createContext, useState } from "react";
+
+export const CartContext = createContext();
+
+export const CartProvider = ({ children }) => {
+  const [cart, setCart] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+
+  const removeFromCart = (index) => {
+    const updated = [...cart];
+    updated.splice(index, 1);
+    setCart(updated);
+  };
+
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  return (
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, total, isOpen, setIsOpen }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+};
